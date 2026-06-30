@@ -49,5 +49,36 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     }),
   );
 });
+const getCurrentUser = asyncHandler(async (req: Request, res: Response) => {
+  const userId = req.user?.id;
 
-export { loginUser };
+  if (!userId) {
+    throw CustomError(401, "Unauthorized");
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user || user.isDeleted) {
+    throw CustomError(404, "User not found");
+  }
+
+  if (!user.isActive) {
+    throw CustomError(403, "Account is not active");
+  }
+
+  res.status(200).json(
+    new APIResponse("User profile fetched successfully", {
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isActive: user.isActive,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+    }),
+  );
+});
+
+export { loginUser, getCurrentUser };
