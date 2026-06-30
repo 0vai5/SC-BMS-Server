@@ -15,14 +15,17 @@ const authGuard = (req: Request, _res: Response, next: NextFunction) => {
     return next(CustomError(401, "Authorization token is required"));
   }
 
-  const payload = verifyToken(token);
+  try {
+    const payload = verifyToken(token);
 
-  req.user = {
-    id: payload.id,
-    role: payload.role,
-  };
+    req.user = {
+      id: payload.id,
+    };
 
-  next();
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 };
 
-export default authGuard;
+export { authGuard };

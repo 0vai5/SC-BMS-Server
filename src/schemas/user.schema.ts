@@ -8,11 +8,27 @@ const UserSchema = z.object({
     .max(50, "Name cannot exceed 50 characters"),
   email: z.string().trim().toLowerCase().email("Please enter a valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(["member", "flatOwner", "admin"]).default("member"),
   isActive: z.boolean().default(true),
   isDeleted: z.boolean().default(false),
 });
 
+const UserUpdateSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, "Name is required")
+    .max(50, "Name cannot exceed 50 characters")
+    .optional(),
+  email: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .email("Please enter a valid email")
+    .optional(),
+  isActive: z.boolean().optional(),
+  isDeleted: z.boolean().optional(),
+});
+
 type User = z.infer<typeof UserSchema>;
 
-export { UserSchema, User };
+export { UserSchema, User, UserUpdateSchema };

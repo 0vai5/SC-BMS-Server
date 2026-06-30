@@ -7,17 +7,16 @@ const { JWT_SECRET, JWT_EXPIRES_IN } = env;
 
 export interface TokenPayload {
   id: string;
-  role: string;
 }
 
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined in the environment variables");
 }
 
-export const generateToken = (id: string, role: string) => {
+export const generateToken = (id: string) => {
   const expiresIn = (JWT_EXPIRES_IN || "1d") as SignOptions["expiresIn"];
 
-  return jwt.sign({ id, role }, JWT_SECRET as string, {
+  return jwt.sign({ id }, JWT_SECRET as string, {
     expiresIn,
   });
 };
@@ -30,15 +29,13 @@ export const verifyToken = (token: string) => {
     if (
       typeof decoded !== "object" ||
       !decoded ||
-      typeof decoded.id !== "string" ||
-      typeof decoded.role !== "string"
+      typeof decoded.id !== "string"
     ) {
       throw CustomError(401, "Invalid token payload");
     }
 
     return {
       id: decoded.id,
-      role: decoded.role,
     } as TokenPayload;
   } catch (error) {
     if ((error as { status?: number })?.status === 401) {

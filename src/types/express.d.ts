@@ -1,6 +1,5 @@
 interface AuthUserPayload {
   id: string;
-  role: string;
 }
 
 declare global {

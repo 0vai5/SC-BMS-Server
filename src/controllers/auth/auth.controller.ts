@@ -35,7 +35,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     throw CustomError(401, "Invalid email or password");
   }
 
-  const token = generateToken(user._id.toString(), user.role);
+  const token = generateToken(user._id.toString());
 
   res.status(200).json(
     new APIResponse("Login successful", {
@@ -43,7 +43,6 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
       },
       token,
     }),
@@ -72,7 +71,6 @@ const getCurrentUser = asyncHandler(async (req: Request, res: Response) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
         isActive: user.isActive,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,

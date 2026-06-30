@@ -1,7 +1,19 @@
-import { ZodSchema } from "zod";
+import { ZodSchema, SafeParseReturnType } from "zod";
 
-const validate = <T>(schema: ZodSchema<T>, data: any) => {
-  return schema.safeParse(data);
+type ValidateResult<T> = {
+  success: boolean;
+  data?: T;
+  error?: SafeParseReturnType<T, T>["error"];
+};
+
+const validate = <T>(schema: ZodSchema<T>, data: any): ValidateResult<T> => {
+  const result = schema.safeParse(data);
+
+  if (result.success) {
+    return { success: true, data: result.data };
+  }
+
+  return { success: false, error: result.error };
 };
 
 export default validate;
