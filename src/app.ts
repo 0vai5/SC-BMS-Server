@@ -12,8 +12,6 @@ const app = express();
 
 const { CORS_ORIGIN } = env;
 
-// TODO: DB Connection
-
 connectDB();
 
 // Middleware
@@ -41,7 +39,7 @@ app.get("/health", (_req: Request, res: Response) => {
   });
 });
 
-// app.use("/api", router)
+app.use("/api", router)
 
 app.use(errorHandler);
 
