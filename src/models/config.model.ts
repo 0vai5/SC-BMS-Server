@@ -1,12 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface IConfig extends Document {
+interface ISettings extends Document {
   maintenanceAmount: number;
   maintenanceSlipNumber: number;
   expenseSlipNumber: number;
 }
 
-const ConfigSchema: Schema = new Schema<IConfig>(
+const SettingsSchema: Schema = new Schema<ISettings>(
   {
     maintenanceAmount: {
       type: Number,
@@ -29,6 +29,6 @@ const ConfigSchema: Schema = new Schema<IConfig>(
   },
 );
 
-const ConfigModel = mongoose.model<IConfig>("Config", ConfigSchema);
+const SettingsModel = mongoose.model<ISettings>("Settings", SettingsSchema);
 
-export { ConfigModel, IConfig };
+export default SettingsModel;

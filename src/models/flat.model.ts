@@ -53,4 +53,4 @@ const FlatSchema: Schema = new Schema<IFlat>(
 
 const FlatModel = mongoose.model<IFlat>("Flat", FlatSchema);
 
-export { FlatModel, IFlat };
+export default FlatModel;
