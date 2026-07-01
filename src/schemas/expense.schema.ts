@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Types } from "mongoose";
 
 const ExpenseSchema = z.object({
   expenseType: z
@@ -32,7 +33,6 @@ const UpdateExpenseSchema = ExpenseSchema.partial().refine(
 );
 
 const ExpenseSlipSchema = z.object({
-  expenseId: z.string().trim().min(1, "Expense ID is required"),
   slipNumber: z.number().positive("Slip number must be a positive number"),
   amount: z.number().positive("Amount must be a positive number"),
   date: z
